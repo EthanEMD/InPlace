@@ -83,30 +83,24 @@ window.fsAttributes.push([
             if (popupContentElement) {
               console.log('Found popup content for location:', location.name); // Debugging line
 
-              // Create a div with class 'mapboxgl-popup-content'
-              const popupContentWrapper = document.createElement('div');
-              popupContentWrapper.classList.add('mapboxgl-popup-content');
-
-              // Clone and append the .pre-popup content into the 'mapboxgl-popup-content' div
-              popupContentWrapper.appendChild(popupContentElement.cloneNode(true));
-
               var pop = new mapboxgl.Popup({
                 offset: 25,
                 closeButton: false,
                 maxWidth: 'auto',
               });
 
-              pop.setDOMContent(popupContentWrapper);
-
               // Create a marker element with class 'star' for styling
               var markerElement = document.createElement('div');
               markerElement.classList.add('star');
 
-              var mark = new mapboxgl.Marker({ element: markerElement })
+              pop.setDOMContent(popupContentElement.cloneNode(true));
+
+              // Create the marker element with the 'star' class for styling
+              var marker = new mapboxgl.Marker({ element: markerElement })
                 .setLngLat([location.lon, location.lat])
                 .setPopup(pop)
                 .addTo(map);
-              markers.push(mark);
+              markers.push(marker);
 
               // Extend the bounds with valid marker coordinates
               bounds.extend([location.lon, location.lat]);
